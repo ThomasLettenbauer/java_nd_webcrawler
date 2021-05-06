@@ -30,9 +30,11 @@ public final class ConfigurationLoader {
    */
   public CrawlerConfiguration load() throws IOException {
     // DONE: Fill in this method.
-    BufferedReader reader = Files.newBufferedReader(path);
-    CrawlerConfiguration crawlerConfiguration = read(reader);
-    return crawlerConfiguration;
+
+    try (BufferedReader reader = Files.newBufferedReader(path)) {
+      return read(reader);
+    }
+
   }
 
   /**
@@ -47,7 +49,6 @@ public final class ConfigurationLoader {
     // DONE: Fill in this method
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.disable(com.fasterxml.jackson.core.JsonParser.Feature.AUTO_CLOSE_SOURCE);
-    CrawlerConfiguration crawlerConfiguration = objectMapper.readValue(reader, CrawlerConfiguration.class);
-    return crawlerConfiguration;
+    return objectMapper.readValue(reader, CrawlerConfiguration.class);
   }
 }
